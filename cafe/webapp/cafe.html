@@ -6,36 +6,57 @@
 
     <script src="external/jquery-3.1.1.min.js"></script>
     <script src="js/cafe.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/cafe.css">
+    <!--<link rel="stylesheet" type="text/css" href="css/cafe.css">-->
 </head>
 <body>
 
-<!--<embed src="files/cup.svg" width="300" height="300" type="image/svg+xml"></embed>-->
-
-<div id="container">
-    <div class="pour"></div>
-
-    <div id="cup">
-        <!--<div class="beer-foam">-->
-        <!--<div class="foam-1"></div>-->
-        <!--<div class="foam-2"></div>-->
-        <!--<div class="foam-3"></div>-->
-        <!--<div class="foam-4"></div>-->
-        <!--<div class="foam-5"></div>-->
-        <!--<div class="foam-6"></div>-->
-        <!--<div class="foam-7"></div>-->
-        <!--</div>-->
-
-        <div id="liquid">
-            <div id="cafe"></div>
-            <div id="light_clip">
-                <div id="light"></div>
-            </div>
-        </div>
-    </div>
+<div style="position: relative; height: 140px">
+    <div id="liquid"
+         style="position: absolute; width: 240px; height: 90px;top: 0;left: 0; background-color: #630;clip-path: url(#profile);-webkit-clip-path:url(#profile)"></div>
+    <div id="vessel" style="position: absolute; width: 240px; height: 140px;top: 0;left: 0;"></div>
 </div>
+
+    <!--<div class="pour"></div>-->
+
+    <!--<div id="cup">-->
+        <!--&lt;!&ndash;<div class="beer-foam">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-1"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-2"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-3"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-4"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-5"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-6"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="foam-7"></div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+        <!--<div id="liquid">-->
+            <!--<div id="cafe"></div>-->
+            <!--<div id="light_clip">-->
+                <!--<div id="light"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 
 <!--<h2 class="animated drunk">Fill'er Up Barkeeper!</h2>-->
 
 </body>
+
+<script type="text/html" id="template_test">
+    <div>123</div>
+</script>
+
+
+<!--容器svg模板-->
+<script type="text/html" id="template_vessel">
+    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1"
+         x="0px" y="0px" viewBox="0 0 240 140" style="enable-background:new 0 0 240 140;">
+        <defs>
+            <!--transform="translate(8 8)"-->
+            <clipPath id="profile" transform="translate(0 0)"></clipPath>
+        </defs>
+        <g fill-opacity="0" stroke="#000" stroke-width="1"></g>
+    </svg>
+</script>
+
+
 </html>

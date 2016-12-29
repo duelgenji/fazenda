@@ -1,15 +1,13 @@
-@import url(http://fonts.googleapis.com/css?family=Lato:700,900);
+/*body { background-color: #0e83cd }*/
 
-body { background-color: #0e83cd }
-
-h2 {
-    margin: 0 auto;
-    width: 400px;
-    font-size: 36px;
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    color: whiteSmoke;
-}
+/*h2 {*/
+    /*margin: 0 auto;*/
+    /*width: 400px;*/
+    /*font-size: 36px;*/
+    /*text-align: center;*/
+    /*font-family: 'Lato', sans-serif;*/
+    /*color: whiteSmoke;*/
+/*}*/
 
 #container {
     height: 370px;
@@ -20,267 +18,34 @@ h2 {
     width: 280px;
 }
 
-#container div { position: absolute; }
-
-.pour {
-    position: absolute;
-    left: 45%;
-    width: 20px;
-    height: 0px;
-    background-color: #630;
-    border-radius: 10px
-}
-
-#cup {
-    margin: 0 auto;
-    border: 10px solid #FFF;
-    border-radius: 0 0 100px 100px;
-    left: 30px;
-    bottom: 0;
-    width: 200px;
-    height: 110px;
-    /*overflow: hidden;*/
-}
-
-#cup:before {
-    content: "";
-    width: 30px;
-    height: 60px;
-    border: 10px solid #FFF;
-    border-left: 10px solid transparent;
-    border-bottom: 10px solid transparent;
-    border-radius: 50% 50%;
-    transform: rotate(38deg);
-    -webkit-transform: rotate(38deg);
-    position: absolute;
-    right: -25px;
-}
-
-#liquid {
-    /*background-color: #edaf32;*/
-    /*border: 10px solid #edaf32;*/
-    /*border-top: 10px solid transparent;*/
-    /*border-radius: 0 0 100px 100px;*/
-    left: 0;
-    bottom: 0;
-    height: 0;
-    overflow: hidden;
-    width: 200px;
-}
-
-/*#liquid:after {*/
-    /*background-color: rgba(255, 255, 255, 0.25);*/
-    /*bottom: -10px;*/
-    /*content: '';*/
-    /*height: 200px;*/
-    /*left: -40px;*/
+/*#container div {*/
     /*position: absolute;*/
-    /*transform: rotate(30deg);*/
-    /*-webkit-transform: rotate(15deg);*/
-    /*width: 110px;*/
 /*}*/
 
-#light_clip {
-    left:0;
-    right:0;
-    bottom:0;
-    top: 10px;
-    overflow: hidden;
-}
+/*.pour {*/
+    /*position: absolute;*/
+    /*left: 45%;*/
+    /*width: 20px;*/
+    /*height: 0px;*/
+    /*background-color: #630;*/
+    /*border-radius: 10px*/
+/*}*/
 
-#light {
-    border: 10px solid transparent;
-    border-radius: 0 0 90px 90px;
-    bottom: 0;
-    height: 100px;
-    width: 100%;
-    overflow: hidden;
-}
+/*#liquid {*/
+    /*background-color: #630;*/
+    /*clip-path: url(#profile);*/
+    /*-webkit-clip-path: url(#profile);*/
+    /*left: 0;*/
+    /*bottom: 0;*/
+    /*height: 90px;*/
+    /*!*overflow: hidden;*!*/
+    /*width: 100%;*/
+/*}*/
 
-#light:after {
-    background-color: rgba(255, 255, 255, 0.25);
-    bottom: -10px;
-    content: '';
-    height: 200px;
-    left: -40px;
-    position: absolute;
-    transform: rotate(30deg);
-    -webkit-transform: rotate(15deg);
-    width: 110px;
-}
-
-#cafe {
-    background-color: #630;
-    border-radius: 0 0 90px 90px;
-    bottom: 0;
-    height: 100px;
-    width: 100%;
-}
-
-/* Foam */
-
-.beer-foam {
-    position: absolute;
-    bottom: 10px;
-}
-
-.foam-1, .foam-2, .foam-3, .foam-4,
-.foam-5, .foam-6, .foam-7 {
-    float: left;
-    position: absolute;
-    z-index: 999;
-    width: 50px;
-    height: 50px;
-    border-radius: 30px;
-    background-color: #fefefe;
-}
-.foam-1 {
-    top: -30px;
-    left: -10px;
-}
-.foam-2 {
-    top: -35px;
-    left: 20px;
-}
-.foam-3 {
-    top: -25px;
-    left: 50px;
-}
-.foam-4 {
-    top: -35px;
-    left: 80px;
-}
-.foam-5 {
-    top: -30px;
-    left: 110px;
-}
-.foam-6 {
-    top: -20px;
-    left: 140px;
-}
-.foam-7 {
-    top: -30px;
-    left: 160px;
-}
-
-/* Drunk Text */
-
-.animated {
-    -webkit-animation-fill-mode:both;
-    -moz-animation-fill-mode:both;
-    animation-fill-mode:both;
-
-    -webkit-animation-duration:5s;
-    -moz-animation-duration:5s;
-    animation-duration:5s;
-
-    -webkit-animation-delay:3.5s;
-    -moz-animation-delay:3.5s;
-    animation-delay:3.5s;
-}
-
-
-.animated.drunk {
-    -webkit-animation-duration:2s;
-    -moz-animation-duration:2s;
-    animation-duration:2s;
-}
-
-@-webkit-keyframes drunk {
-    0% {
-        -webkit-transform: rotate(0);
-        -webkit-transform-origin: top left;
-        -webkit-animation-timing-function: ease-in-out;
-    }
-
-    20%, 60% {
-        -webkit-transform: rotate(80deg);
-        -webkit-transform-origin: top left;
-        -webkit-animation-timing-function: ease-in-out;
-    }
-    40% {
-        -webkit-transform: rotate(60deg);
-        -webkit-transform-origin: top left;
-        -webkit-animation-timing-function: ease-in-out;
-    }
-
-    80% {
-        -webkit-transform: rotate(60deg) translateY(0);
-        -webkit-transform-origin: top left;
-        -webkit-animation-timing-function: ease-in-out;
-        opacity: 1;
-    }
-
-    100% {
-        -webkit-transform: translateY(700px);
-        opacity: 0;
-    }
-}
-
-@-moz-keyframes drunk {
-    0% {
-        -moz-transform: rotate(0);
-        -moz-transform-origin: top left;
-        -moz-animation-timing-function: ease-in-out;
-    }
-
-    20%, 60% {
-        -moz-transform: rotate(80deg);
-        -moz-transform-origin: top left;
-        -moz-animation-timing-function: ease-in-out;
-    }
-
-    40% {
-        -moz-transform: rotate(60deg);
-        -moz-transform-origin: top left;
-        -moz-animation-timing-function: ease-in-out;
-    }
-
-    80% {
-        -moz-transform: rotate(60deg) translateY(0); opacity: 1;
-        -moz-transform-origin: top left;
-        -moz-animation-timing-function: ease-in-out;
-    }
-
-    100% {
-        -moz-transform: translateY(700px);
-        opacity: 0;
-    }
-}
-
-@keyframes drunk {
-    0% {
-        transform: rotate(0);
-        transform-origin: top left;
-        animation-timing-function: ease-in-out;
-    }
-
-    20%, 60% {
-        transform: rotate(80deg);
-        transform-origin: top left;
-        animation-timing-function: ease-in-out;
-    }
-
-    40% {
-        transform: rotate(60deg);
-        transform-origin: top left;
-        animation-timing-function: ease-in-out;
-    }
-
-    80% {
-        transform: rotate(60deg) translateY(0);
-        opacity: 1; transform-origin: top left;
-        animation-timing-function: ease-in-out;
-    }
-    100% {
-        transform: translateY(700px);
-        opacity: 0;
-    }
-}
-
-.drunk {
-    -webkit-animation-name: drunk;
-    -moz-animation-name: drunk;
-    animation-name: drunk;
-}
-
+/*#vessel {*/
+    /*left: 0;*/
+    /*bottom: 0;*/
+    /*height: 140px;*/
+    /*!*overflow: hidden;*!*/
+    /*width: 100%;*/
+/*}*/
