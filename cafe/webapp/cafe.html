@@ -3,41 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>咖啡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script src="external/jquery-3.1.1.min.js"></script>
     <script src="js/cafe.js"></script>
-    <!--<link rel="stylesheet" type="text/css" href="css/cafe.css">-->
+    <link rel="stylesheet" type="text/css" href="css/cafe.css">
 </head>
 <body>
 
-<div style="position: relative; height: 140px;width: 240px;margin: 0 auto;">
-    <div id="liquid" style="position: absolute; width: 240px; height: 120px;bottom: 0;left: 0;overflow: hidden;">
-        <svg width="240px" height="140px" style="position: absolute;bottom: 0;left: 0;" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
-             viewBox="0 0 240 140" preserveAspectRatio="xMidYMid meet" >
-            <path stroke-opacity="0" fill="#630" d="M 10 10
-            H 220
-            C 220 70 220 130 120 130
-            C 10 130 10 70 10 10
-            z">
-            </path>
-        </svg>
-    </div>
-
-    <div id="vessel" style="position: absolute; width: 240px; height: 140px;bottom: 0;left: 0;">
-        <svg id="cup" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
-             viewBox="0 0 240 140" preserveAspectRatio="xMidYMid meet">
-            <g fill-opacity="0" stroke="#000" stroke-width="5">
-                <path d="M 10 10
-            H 220
-            C 220 70 220 130 120 130
-            C 10 130 10 70 10 10
-            z">
-                </path>
-
-            </g>
-
-        </svg>
-    </div>
+<div id="container">
+    <div id="pour"></div>
+    <div id="liquid"></div>
+    <div id="vessel"></div>
 
     <!--<div style="position: relative; height: 140px">-->
     <!--<div id="liquid"-->
@@ -70,21 +47,25 @@
 
 </body>
 
-<script type="text/html" id="template_test">
-    <div>123</div>
+<!--流体模板-->
+<script type="text/html" id="template_pour">
+    <div class="pour"></div>
 </script>
 
+<!--液体svg模板-->
+<script type="text/html" id="template_liquid">
+    <div style="position: absolute; width: 100%; height: 0; bottom: 0; left: 0; overflow: hidden;">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 240 140" preserveAspectRatio="xMidYMax slice" fill="#630">
+        </svg>
+    </div>
+</script>
 
 <!--容器svg模板-->
 <script type="text/html" id="template_vessel">
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1"
-         x="0px" y="0px" viewBox="0 0 240 140" style="enable-background:new 0 0 240 140;">
-        <defs>
-            <!--transform="translate(8 8)"-->
-            <clipPath id="profile" transform="translate(0 0)"></clipPath>
-        </defs>
-        <g fill-opacity="0" stroke="#000" stroke-width="5"></g>
-    </svg>
+    <div style="position: absolute; width: 100%; height: 100%; bottom: 0; left: 0;">
+         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 240 140" preserveAspectRatio="xMidYMax slice" stroke-width="5" stroke="#000">
+         </svg>
+    </div>
 </script>
 
 
