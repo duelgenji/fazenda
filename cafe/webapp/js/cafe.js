@@ -5,7 +5,7 @@ $(document).ready(function() {
     var vessel = $($('#template_vessel').html());
     vessel.find('g').load(profile_path);
     vessel.find('clipPath').load(profile_path);
-    $("#vessel").append(vessel);
+    // $("#vessel").append(vessel);
 
     // $('.pour') //Pour Me Another Drink, Bartender!
     //     .delay(2000)
