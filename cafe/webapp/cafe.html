@@ -10,27 +10,21 @@
 </head>
 <body>
 
-<div style="position: relative; height: 140px">
-    <div id="liquid"
-         style="position: absolute; width: 240px; height: 140px;bottom: 0;left: 0; background-color: #630;clip-path: url(#profile);-webkit-clip-path:url(#profile)"></div>
-    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
-         viewBox="0 0 240 140" preserveAspectRatio="xMidYMid meet">
-        <defs>
-            <!--transform="translate(8 8)"-->
-            <clipPath id="profile">
-                <path d="M 10 10
+<div style="position: relative; height: 140px;width: 240px;margin: 0 auto;">
+    <div id="liquid" style="position: absolute; width: 240px; height: 120px;bottom: 0;left: 0;overflow: hidden;">
+        <svg width="240px" height="140px" style="position: absolute;bottom: 0;left: 0;" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
+             viewBox="0 0 240 140" preserveAspectRatio="xMidYMid meet" >
+            <path stroke-opacity="0" fill="#630" d="M 10 10
             H 220
             C 220 70 220 130 120 130
             C 10 130 10 70 10 10
             z">
-                </path>
+            </path>
+        </svg>
+    </div>
 
-            </clipPath>
-        </defs>
-    </svg>
-
-    <div id="vessel" style="position: absolute; width: 240px; height: 140px;bottom: 10px;left: -10px;">
-        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
+    <div id="vessel" style="position: absolute; width: 240px; height: 140px;bottom: 0;left: 0;">
+        <svg id="cup" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1" x="0px" y="0px"
              viewBox="0 0 240 140" preserveAspectRatio="xMidYMid meet">
             <g fill-opacity="0" stroke="#000" stroke-width="5">
                 <path d="M 10 10

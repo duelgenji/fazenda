@@ -1,11 +1,17 @@
 $(document).ready(function() {
-
+    // $("#cup").animate({
+    //     height: '0'
+    // }, 1500);
+    $("#liquid").animate({
+        height: '0'
+    }, 1500);
     var profile_path = 'files/profile_cup.html';
 
     var vessel = $($('#template_vessel').html());
     vessel.find('g').load(profile_path);
     vessel.find('clipPath').load(profile_path);
     // $("#vessel").append(vessel);
+
 
     // $('.pour') //Pour Me Another Drink, Bartender!
     //     .delay(2000)
