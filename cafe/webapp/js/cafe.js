@@ -23,10 +23,11 @@ $(document).ready(function () {
         $('#pour').css("margin-bottom", "10px");
     }
 
-    function setupVessel() {
+    function setupVessel(color) {
+        if (color == undefined) color = "#000";
         var vessel = $($('#template_vessel').html());
         vessel.find('svg').load(profile_path);
-        vessel.find('svg').attr("stroke", "#000");
+        vessel.find('svg').attr("stroke", color);
         $("#vessel").append(vessel);
     }
 
