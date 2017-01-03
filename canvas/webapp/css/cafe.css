@@ -1,14 +1,5 @@
 body { background-color: #0e83cd }
 
-h2 {
-    margin: 0 auto;
-    width: 400px;
-    font-size: 36px;
-    text-align: center;
-    font-family: 'Lato', sans-serif;
-    color: whiteSmoke;
-}
-
 #canvas {
     width: 100%;
     border: 1px solid;
