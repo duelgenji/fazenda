@@ -14,7 +14,7 @@ Page({
     var profile = 'cup';
 
     vessel = require('vessel.js')(profile);
-    vessel.fillSpeed = 0.2;
+    // vessel.fillSpeed = 0.5;
     vessel.colorMix = true;
     this.setData({
       canvasWidth: vessel.ctxWidth + "px",
@@ -30,14 +30,16 @@ Page({
     setTimeout(function () {
       vessel.addLiquid({
         color: 'rgba(255,0,255,0.2)',
-        height: 20
+        height: 80
       }, function () {
         vessel.addLiquid({
           color: '#999999',
-          height: 15
+          height: 75,
+          position: -40
         }).addLiquid({
           color: '#00FF00',
-          height: 10
+          height: 60,
+          position: 30
         });
       });
     }, 500);

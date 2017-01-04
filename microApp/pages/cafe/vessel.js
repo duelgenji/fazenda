@@ -16,13 +16,18 @@ function Vessel(profile) {
     const liquidCtx = wx.createCanvasContext('liquid');
     /*vessel图形上下文*/
     const vesselCtx = wx.createCanvasContext('vessel');
+    /*pour图形上下文*/
+    const pourCtx = wx.createCanvasContext('pour');
     /*液体数组*/
     var liquids = [];
+    var pours = [];
 
-    this.strokeWidth = 5;      // 器皿壁厚
+    this.strokeWidth = 5;   // 器皿壁厚
     this.strokeColor = '#000000'; // 器皿边框颜色
     this.colorMix = false;  // 是否混合颜色，false为分层
-    this.fillSpeed = 5;      // 每10毫秒上升高度
+    this.fillSpeed = 0.5;   // 每10毫秒上升高度
+    this.pourSpeed = 3.0;   // 每10毫秒液体加入速度
+    this.pourWidth = 30;    // 加入液柱宽度
 
     this.reset = function () {
         liquids = [];
@@ -34,18 +39,53 @@ function Vessel(profile) {
         const height = liquid.height;
         liquid.height = 0;
         liquids.push(liquid);
-        function animate() {
+        var pour = {
+            top: 0,
+            bottom: 0,
+            color: liquid.color,
+            position: liquid.position
+        }
+        pours.push(pour);
+        const duration = height / that.fillSpeed;
+        const deltaTime = height / that.pourSpeed;
+        const delayTime = (profile.ctxHeight - topHeightForLiquid(liquids.length - 1)) / that.pourSpeed;
+        function pourLiquid() {
+            function pourTop() {
+                if (pour.top <= + pour.bottom) {
+                    pour.top += that.pourSpeed;
+                    redrawPour();
+                    setTimeout(function () {
+                        pourTop();
+                    }, 10);
+                }
+            }
+            function pourBottom() {
+                if (topHeightForLiquid(liquids.length - 1) + pour.bottom < profile.ctxHeight) {
+                    pour.bottom += that.pourSpeed;
+                    redrawPour();
+                    setTimeout(function () {
+                        pourBottom();
+                    }, 10);
+                }
+            }
+            pourBottom();
+            setTimeout(pourTop, (duration + deltaTime) * 10);
+        }
+
+        function fillLiquid() {
             if (height > liquid.height) {
                 liquid.height += that.fillSpeed;
                 redrawLiquid();
                 setTimeout(function () {
-                    animate();
+                    fillLiquid();
                 }, 10);
             } else if (callback) {
                 callback();
             }
         }
-        animate();
+
+        pourLiquid();
+        setTimeout(fillLiquid, delayTime * 10);
         return this;
     };
 
@@ -66,17 +106,45 @@ function Vessel(profile) {
         vesselCtx.save();
         vesselCtx.translate(ctxPadding, ctxPadding);
         profile.createVesselPath(vesselCtx);
-        // createClosedVesselPath(vesselCtx);
         vesselCtx.stroke();
         vesselCtx.restore();
         vesselCtx.draw();
     }
 
+    /*draw pour*/
+    var shouldRedrawPour = false;
+    function redrawPour() {
+        if (shouldRedrawPour == false) {
+            shouldRedrawPour = true;
+
+            setTimeout(function () {
+                for (var i = 0; i < pours.length; i++) {
+                    drawPour(pours[i].top, pours[i].bottom, pours[i].color, pours[i].position);
+                }
+                pourCtx.draw();
+                shouldRedrawPour = false;
+            }, 10)
+        }
+    }
+
+    function drawPour(top, bottom, color, position) {
+        if (top > bottom) return;
+        bottom = Math.min(bottom, profile.ctxHeight - topHeightForLiquid(liquids.length - 1));
+        if (top > bottom) return;
+        if (!position) position = 0;
+        pourCtx.save();
+        pourCtx.translate(ctxPadding, ctxPadding);
+        pourCtx.setFillStyle(color);
+        pourCtx.fillRect((that.ctxWidth - that.pourWidth) / 2.0 + position, top, that.pourWidth, bottom - top);
+        pourCtx.restore();
+    }
+
     /*draw liquid*/
-    var shouldRedraw = false;
+    var shouldRedrawLiquid = false;
     function redrawLiquid() {
-        if (shouldRedraw == false) {
-            shouldRedraw = true;
+        if (shouldRedrawLiquid == false) {
+            shouldRedrawLiquid = true;
+            redrawPour();
             setTimeout(function () {
                 if (that.colorMix) {
                     drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
@@ -88,7 +156,7 @@ function Vessel(profile) {
                 // clipLiquid();
                 coverLiquid();
                 liquidCtx.draw();
-                shouldRedraw = false;
+                shouldRedrawLiquid = false;
             }, 9);
         }
     }
@@ -96,18 +164,8 @@ function Vessel(profile) {
     function drawLiquid(color, topHeight, height) {
         liquidCtx.save();
         liquidCtx.translate(ctxPadding, ctxPadding);
-        // liquidCtx.setGlobalCompositeOperation('source-over');
         liquidCtx.setFillStyle(color);
         liquidCtx.fillRect(0, profile.ctxHeight - topHeight, profile.ctxWidth, height);
-        liquidCtx.restore();
-    }
-
-    function clipLiquid() {
-        liquidCtx.save();
-        liquidCtx.translate(ctxPadding, ctxPadding);
-        // liquidCtx.setGglobalCompositeOperation('destination-in');
-        createClosedVesselPath(liquidCtx);
-        liquidCtx.fill();
         liquidCtx.restore();
     }
 

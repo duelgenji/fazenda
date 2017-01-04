@@ -1,4 +1,6 @@
+
 <!--pages/cafe/main.wxml-->
-
-<canvas id="liquid" canvas-id="liquid" style="width:{{canvasWidth}};height:{{canvasHeight}};"><canvas id="vessel" canvas-id="vessel" style="width:{{canvasWidth}};height:{{canvasHeight}};"></canvas></canvas>
-
+<canvas id="liquid" canvas-id="liquid" style="width:{{canvasWidth}};height:{{canvasHeight}};">
+  <canvas id="vessel" canvas-id="vessel" style="width:{{canvasWidth}};height:{{canvasHeight}};"></canvas>
+  <canvas id="pour" canvas-id="pour" style="width:{{canvasWidth}};height:{{canvasHeight}};"></canvas>
+</canvas>

@@ -9,6 +9,6 @@ canvas {
     margin-top: 10px;
 }
 
-#vessel {
+#liquid canvas {
     position: absolute;
 }
