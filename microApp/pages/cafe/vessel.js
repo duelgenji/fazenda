@@ -88,7 +88,6 @@ function Vessel(profile) {
                 // clipLiquid();
                 coverLiquid();
                 liquidCtx.draw();
-                console.log(1);
                 shouldRedraw = false;
             }, 9);
         }
@@ -132,19 +131,26 @@ function Vessel(profile) {
     }
 
     function mixedColor() {
-        if (liquids.length == 0) return "#000";
-        var r = 0, g = 0, b = 0;
+        if (liquids.length == 0) return "#000000";
+        var r = 0, g = 0, b = 0, a = 0;
         var height = 0;
         for (var idx in liquids) {
             if (liquids.hasOwnProperty(idx)) {
                 var liquid = liquids[idx];
                 var c = liquid.color;
                 var h = liquid.height;
-                if (/^(rgb|RGB)/.test(c)) {
+                if (/^(rgba|RGBA)/.test(c)) {
+                    var aColor = c.replace(/(?:\(|\)|rgba|RGBA)*/g, "").split(",");
+                    r += aColor[0] * h;
+                    g += aColor[1] * h;
+                    b += aColor[2] * h;
+                    a += aColor[3] * h;
+                } else if (/^(rgb|RGB)/.test(c)) {
                     var aColor = c.replace(/(?:\(|\)|rgb|RGB)*/g, "").split(",");
                     r += aColor[0] * h;
                     g += aColor[1] * h;
                     b += aColor[2] * h;
+                    a += h;
                 } else if (/^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/.test(c)) {
                     var aNum = c.replace(/#/, "").split("");
                     if (aNum.length === 6) {
@@ -156,20 +162,15 @@ function Vessel(profile) {
                         g += parseInt(aNum[1] + aNum[1], 16) * h;
                         b += parseInt(aNum[2] + aNum[2], 16) * h;
                     }
+                    a += h;
                 }
                 height += h;
             }
         }
-        r = parseInt(r / height).toString(16);
-        g = parseInt(g / height).toString(16);
-        b = parseInt(b / height).toString(16);
-        var result = "#";
-        if (r.length < 2) result += "0";
-        result += r;
-        if (g.length < 2) result += "0";
-        result += g;
-        if (b.length < 2) result += "0";
-        result += b;
-        return result;
+        r = parseInt(r / height);
+        g = parseInt(g / height);
+        b = parseInt(b / height);
+        a = parseFloat(a / height).toFixed(3);
+        return "rgba(" + r + "," + g + "," + b + "," + a + ")";
     }
 }

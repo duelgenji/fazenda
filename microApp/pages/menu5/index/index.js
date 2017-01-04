@@ -1,7 +1,7 @@
 //index.js
 //获取应用实例
 var app = getApp()
-var asd = require('../../utils/common.js')
+var asd = require('../../../utils/common.js')
 Page({
   data: {
     motto: 'Hello World',

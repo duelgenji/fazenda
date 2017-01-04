@@ -15,7 +15,7 @@ Page({
 
     vessel = require('vessel.js')(profile);
     vessel.fillSpeed = 0.2;
-    // vessel.colorMix = true;
+    vessel.colorMix = true;
     this.setData({
       canvasWidth: vessel.ctxWidth + "px",
       canvasHeight: vessel.ctxHeight + "px"
@@ -29,7 +29,7 @@ Page({
     vessel.reset();
     setTimeout(function () {
       vessel.addLiquid({
-        color: '#663300',
+        color: 'rgba(255,0,255,0.2)',
         height: 20
       }, function () {
         vessel.addLiquid({
