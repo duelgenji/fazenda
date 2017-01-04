@@ -31,7 +31,6 @@ function Vessel(profile) {
     }
 
     this.addLiquid = function (liquid, callback) {
-
         const height = liquid.height;
         liquid.height = 0;
         liquids.push(liquid);
@@ -79,7 +78,6 @@ function Vessel(profile) {
         if (shouldRedraw == false) {
             shouldRedraw = true;
             setTimeout(function () {
-                clearLiquid();
                 if (that.colorMix) {
                     drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
                 } else {
@@ -90,14 +88,10 @@ function Vessel(profile) {
                 // clipLiquid();
                 coverLiquid();
                 liquidCtx.draw();
+                console.log(1);
                 shouldRedraw = false;
-            }, 10);
+            }, 9);
         }
-    }
-
-    function clearLiquid() {
-        liquidCtx.clearRect(0, 0, profile.ctxWidth, profile.ctxHeight);
-        liquidCtx.draw();
     }
 
     function drawLiquid(color, topHeight, height) {
