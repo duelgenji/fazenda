@@ -8,7 +8,7 @@ module.exports = function (profile) {
 function Vessel(profile) {
     const that = this;
 
-    var profile = require(profile + '.js');
+    var profile = require('profile/' + profile + '.js');
     this.ctxWidth = profile.ctxWidth + ctxPadding * 2; // 画布宽;
     this.ctxHeight = profile.ctxHeight + ctxPadding * 2; // 画布高;
 
