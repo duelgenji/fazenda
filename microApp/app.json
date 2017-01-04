@@ -5,7 +5,6 @@
     "pages/home/logs/logs",
     "pages/wine/index/index",
     "pages/wine/wine/wine",
-    
     "pages/menu4/index/index",
     "pages/menu4/wine/wine",
     "pages/menu5/index/index",
@@ -22,31 +21,38 @@
     "selectedColor": "#3cc51f",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
-    "list": [{
+    "list": [
+      {
         "pagePath": "pages/home/index/index",
         "iconPath": "image/icon_home.png",
-        "selectedIconPath" : "image/icon_home_HL.png",           "text": "主页"
-      },{
+        "selectedIconPath": "image/icon_home_HL.png",
+        "text": "主页"
+      },
+      {
         "pagePath": "pages/wine/index/index",
         "iconPath": "image/icon_cocktail.png",
-        "selectedIconPath" :"image/icon_cocktail_HL.png",
+        "selectedIconPath": "image/icon_cocktail_HL.png",
         "text": "酒单"
-      },{
+      },
+      {
         "pagePath": "pages/cafe/main",
         "iconPath": "image/icon_light.png",
-        "selectedIconPath" :"image/icon_light_HL.png",
+        "selectedIconPath": "image/icon_light_HL.png",
         "text": "原创"
-      },{
+      },
+      {
         "pagePath": "pages/menu4/index/index",
         "iconPath": "image/icon_camera.png",
-        "selectedIconPath" :"image/icon_camera_HL.png",
+        "selectedIconPath": "image/icon_camera_HL.png",
         "text": "记录"
-      },{
+      },
+      {
         "pagePath": "pages/menu5/index/index",
         "iconPath": "image/icon_user.png",
-        "selectedIconPath" :"image/icon_user_HL.png",
+        "selectedIconPath": "image/icon_user_HL.png",
         "text": "个人"
-      }]
+      }
+    ]
   },
-  "debug":false
+  "debug": false
 }
