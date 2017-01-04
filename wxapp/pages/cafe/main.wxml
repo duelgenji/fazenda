@@ -1,0 +1,4 @@
+<!--pages/cafe/main.wxml-->
+
+<canvas id="liquid" canvas-id="liquid" style="width:{{canvasWidth}};height:{{canvasHeight}};"><canvas id="vessel" canvas-id="vessel" style="border: 1px solid;width:{{canvasWidth}};height:{{canvasHeight}};"></canvas></canvas>
+

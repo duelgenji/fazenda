@@ -1,6 +1,6 @@
 
 var vessel = new Vessel();
-vessel.strokeColor = "red";
+vessel.strokeColor = "green";
 vessel.colorMix = true;
 
 setTimeout(function () {

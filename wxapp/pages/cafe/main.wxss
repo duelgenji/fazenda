@@ -1,0 +1,14 @@
+/* pages/cafe/main.wxss */
+canvas {
+    position: relative;
+    margin: 0px auto;
+    top: 0;
+}
+
+#liquid {
+    margin-top: 10px;
+}
+
+#vessel {
+    position: absolute;
+}
