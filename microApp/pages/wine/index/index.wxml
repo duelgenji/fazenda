@@ -1,0 +1,15 @@
+<!--index.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+  </view>
+  <!--<view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+  <view class="seciton">
+    <view bindtap="menu1" class="flex-item">菜单一</view>
+    <view bindtap="menu2" class="flex-item">菜单二</view>
+    <view bindtap="menu3" class="flex-item">菜单三</view>
+  </view>-->
+</view>

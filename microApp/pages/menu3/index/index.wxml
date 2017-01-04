@@ -1,0 +1,5 @@
+<!--index.wxml-->
+<view class="container">
+   <canvas class="canvas" canvas-id="liquidCtx" />
+    <canvas class="canvas" canvas-id="vesselCtx"/>
+</view>

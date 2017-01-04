@@ -1,0 +1,16 @@
+<!--index.wxml-->
+<view class="container">
+  <view  bindtap="bindViewTap" class="userinfo">
+    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+
+    
+    <view style="flex-direction:row;">
+    <image wx:if="{{userInfo.gender==1}}" class="userinfo-gender" src="/image/icon_gender_male.png"></image>
+    <image wx:elif="{{userInfo.gender==2}}" class="userinfo-gender" src="/image/icon_gender_female.png"></image>
+    <image wx:elif="{{userInfo.gender==0}}" class="userinfo-gender" src="/image/icon_gender_default.png"></image>
+    <!--<text class="user-gender">{{userInfo.gender}}</text>-->
+    <text class="userinfo-nickname">{{userInfo.nickName}}
+</text>
+</view>
+  </view>
+</view>
