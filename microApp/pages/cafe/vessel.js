@@ -31,7 +31,9 @@ function Vessel(profile) {
 
     this.reset = function () {
         liquids = [];
+        pours = [];
         redrawVessel();
+        redrawPour();
         redrawLiquid();
     }
 
