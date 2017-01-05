@@ -92,14 +92,6 @@ function Vessel(profile) {
                 } else if (liquids.length > 1) {
                     xx = Math.floor((waveNum - 2) * (0.5 + (pour.position ? pour.position : 0) / profile.ctxWidth)) + 1;
                     diffPt[xx] = 1000;
-
-                    function ccc() {
-                        if (end) return;
-                        diffPt[xx] = 1000;
-                        setTimeout(function () {
-                            ccc();
-                        }, 1000 / that.FPS);
-                    }
                 }
             }
             pourBottom();
