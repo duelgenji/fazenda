@@ -33,10 +33,10 @@ function Vessel(profile) {
     this.FPS = 60;          // 刷新帧率
     this.enableWaves = true; // 是否启用液面波动
 
-    var timer = null;
+    var timers = [0,0,0,0,0,0];
     this.start = function () {
         redrawVessel();
-        timer = setTimeout(function () {
+        timers[0] = setTimeout(function () {
             updateWaves();
             redrawPour();
             redrawLiquid();
@@ -45,7 +45,12 @@ function Vessel(profile) {
     }
 
     this.stop = function () {
-        clearTimeout(timer);
+        clearTimeout(timers[0]);
+        clearTimeout(timers[1]);
+        clearTimeout(timers[2]);
+        clearTimeout(timers[3]);
+        clearTimeout(timers[4]);
+        clearTimeout(timers[5]);
     }
 
     this.reset = function () {
@@ -76,7 +81,7 @@ function Vessel(profile) {
             function pourTop() {
                 if (pour.top <= pour.bottom + that.pourCircleHeight * 2) {
                     pour.top += that.pourSpeed / that.FPS;
-                    setTimeout(function () {
+                    timers[1] = setTimeout(function () {
                         pourTop();
                     }, 1000 / that.FPS);
                 } else {
@@ -86,7 +91,7 @@ function Vessel(profile) {
             function pourBottom() {
                 if (topHeightForLiquid(liquids.length - 1) + pour.bottom < profile.ctxHeight) {
                     pour.bottom += that.pourSpeed / that.FPS;
-                    setTimeout(function () {
+                    timers[2] = setTimeout(function () {
                         pourBottom();
                     }, 1000 / that.FPS);
                 } else if (liquids.length > 1) {
@@ -95,13 +100,13 @@ function Vessel(profile) {
                 }
             }
             pourBottom();
-            setTimeout(pourTop, (duration + deltaTime) * 1000);
+            timers[3] = setTimeout(pourTop, (duration + deltaTime) * 1000);
         }
 
         function fillLiquid() {
             if (height > liquid.height) {
                 liquid.height += that.fillSpeed / that.FPS;
-                setTimeout(function () {
+                timers[4] = setTimeout(function () {
                     fillLiquid();
                 }, 1000 / that.FPS);
             } else if (callback) {
@@ -110,7 +115,7 @@ function Vessel(profile) {
         }
 
         pourLiquid();
-        setTimeout(fillLiquid, delayTime * 1000);
+        timers[5] = setTimeout(fillLiquid, delayTime * 1000);
         return this;
     };
 

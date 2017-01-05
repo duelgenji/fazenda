@@ -17,7 +17,7 @@ Page({
     // vessel.backgroundColor = "#FFFFFF";
     // vessel.strokeWidth = 5;   // 器皿壁厚
     // vessel.strokeColor = '#000000'; // 器皿边框颜色
-    vessel.colorMix = true;   // 是否混合颜色，false为分层
+    // vessel.colorMix = true;   // 是否混合颜色，false为分层
     vessel.fillSpeed = 50;    // 液面上升速度(每秒)
     vessel.pourSpeed = 300;   // 液体加入速度(每秒)
     vessel.pourWidth = 30;    // 加入液柱宽度
@@ -32,6 +32,10 @@ Page({
   },
   onReady: function () {
     // 页面渲染完成
+  },
+  onShow: function () {
+    // 页面显示
+    vessel.reset();
     vessel.start();
     setTimeout(function () {
       vessel.addLiquid({
@@ -57,12 +61,11 @@ Page({
         });
       });
     }, 500);
-  },
-  onShow: function () {
-    // 页面显示
+
   },
   onHide: function () {
     // 页面隐藏
+    vessel.stop();
   },
   onUnload: function () {
     // 页面关闭
