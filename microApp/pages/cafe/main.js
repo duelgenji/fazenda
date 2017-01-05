@@ -14,7 +14,7 @@ Page({
     var profile = 'cup';
 
     vessel = require('vessel.js')(profile);
-    vessel.colorMix = true;
+    // vessel.colorMix = true;
     this.setData({
       canvasWidth: vessel.ctxWidth + "px",
       canvasHeight: vessel.ctxHeight + "px"

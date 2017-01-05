@@ -22,6 +22,7 @@ function Vessel(profile) {
     var liquids = [];
     var pours = [];
 
+    this.backgroundColor = "#FFFFFF";
     this.strokeWidth = 5;   // 器皿壁厚
     this.strokeColor = '#000000'; // 器皿边框颜色
     this.colorMix = false;  // 是否混合颜色，false为分层
@@ -147,7 +148,7 @@ function Vessel(profile) {
         vesselCtx.save();
         vesselCtx.translate(ctxPadding, ctxPadding);
         profile.coverLiquidPath(vesselCtx);
-        vesselCtx.setFillStyle("#FFFFFF");
+        vesselCtx.setFillStyle(that.backgroundColor);
         vesselCtx.fill();
         vesselCtx.restore();
     }
@@ -176,7 +177,7 @@ function Vessel(profile) {
             topCircleRoot = (topCircleRoot + bottomCircleRoot) / 2.0;
             bottomCircleRoot = topCircleRoot;
         }
-        
+
         pourCtx.save();
         pourCtx.translate(ctxPadding, ctxPadding);
         pourCtx.setFillStyle(color);
@@ -194,6 +195,7 @@ function Vessel(profile) {
     /*draw liquid*/
     var shouldRedrawLiquid = false;
     function redrawLiquid() {
+
         if (that.colorMix) {
             drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
         } else {
@@ -207,19 +209,22 @@ function Vessel(profile) {
     function drawLiquid(color, topHeight, height) {
         liquidCtx.save();
         liquidCtx.translate(ctxPadding, ctxPadding + profile.ctxHeight - topHeight);
-        liquidCtx.setFillStyle(color);
-        liquidCtx.beginPath();
-        liquidCtx.moveTo(0, 0);
-        if (that.enableWaves) {
-            for (var i = 1; i < waves.length; i++)
-                liquidCtx.lineTo(waves[i].x, waves[i].y);
-        } else {
-            liquidCtx.lineTo(profile.ctxWidth, 0);
+
+        for (var t = 0; t < 2; t++) {
+            liquidCtx.beginPath();
+            liquidCtx.moveTo(0, 0);
+            if (that.enableWaves) {
+                for (var i = 1; i < waves.length; i++)
+                    liquidCtx.lineTo(waves[i].x, waves[i].y);
+            } else {
+                liquidCtx.lineTo(profile.ctxWidth, 0);
+            }
+            liquidCtx.lineTo(profile.ctxWidth, topHeight);
+            liquidCtx.lineTo(0, topHeight);
+            liquidCtx.closePath();
+            liquidCtx.setFillStyle(t == 0 ? that.backgroundColor : color);
+            liquidCtx.fill();
         }
-        liquidCtx.lineTo(profile.ctxWidth, height);
-        liquidCtx.lineTo(0, height);
-        liquidCtx.closePath();
-        liquidCtx.fill();
         liquidCtx.restore();
     }
 
