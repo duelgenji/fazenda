@@ -25,9 +25,24 @@ function Vessel(profile) {
     this.strokeWidth = 5;   // 器皿壁厚
     this.strokeColor = '#000000'; // 器皿边框颜色
     this.colorMix = false;  // 是否混合颜色，false为分层
-    this.fillSpeed = 0.5;   // 每10毫秒上升高度
-    this.pourSpeed = 3.0;   // 每10毫秒液体加入速度
+    this.fillSpeed = 50;   // 液面上升速度(每秒)
+    this.pourSpeed = 300;   // 液体加入速度(每秒)
     this.pourWidth = 30;    // 加入液柱宽度
+    this.FPS = 60;          // 刷新帧率
+
+    var timer = null;
+    this.start = function () {
+        redrawVessel();
+        timer = setTimeout(function () {
+            redrawPour();
+            redrawLiquid();
+            that.start();
+        }, 1000 / that.FPS);
+    }
+
+    this.stop = function () {
+        clearTimeout(timer);
+    }
 
     this.reset = function () {
         liquids = [];
@@ -54,40 +69,37 @@ function Vessel(profile) {
         function pourLiquid() {
             function pourTop() {
                 if (pour.top <= + pour.bottom) {
-                    pour.top += that.pourSpeed;
-                    redrawPour();
+                    pour.top += that.pourSpeed / that.FPS;
                     setTimeout(function () {
                         pourTop();
-                    }, 10);
+                    }, 1000 / that.FPS);
                 }
             }
             function pourBottom() {
                 if (topHeightForLiquid(liquids.length - 1) + pour.bottom < profile.ctxHeight) {
-                    pour.bottom += that.pourSpeed;
-                    redrawPour();
+                    pour.bottom += that.pourSpeed / that.FPS;
                     setTimeout(function () {
                         pourBottom();
-                    }, 10);
+                    }, 1000 / that.FPS);
                 }
             }
             pourBottom();
-            setTimeout(pourTop, (duration + deltaTime) * 10);
+            setTimeout(pourTop, (duration + deltaTime) * 1000);
         }
 
         function fillLiquid() {
             if (height > liquid.height) {
-                liquid.height += that.fillSpeed;
-                redrawLiquid();
+                liquid.height += that.fillSpeed / that.FPS;
                 setTimeout(function () {
                     fillLiquid();
-                }, 10);
+                }, 1000 / that.FPS);
             } else if (callback) {
                 callback();
             }
         }
 
         pourLiquid();
-        setTimeout(fillLiquid, delayTime * 10);
+        setTimeout(fillLiquid, delayTime * 1000);
         return this;
     };
 
@@ -105,6 +117,7 @@ function Vessel(profile) {
     /****************method****************/
     /*draw vessel*/
     function redrawVessel() {
+        coverLiquid();
         vesselCtx.save();
         vesselCtx.translate(ctxPadding, ctxPadding);
         profile.createVesselPath(vesselCtx);
@@ -113,20 +126,22 @@ function Vessel(profile) {
         vesselCtx.draw();
     }
 
+    function coverLiquid() {
+        vesselCtx.save();
+        vesselCtx.translate(ctxPadding, ctxPadding);
+        profile.coverLiquidPath(vesselCtx);
+        vesselCtx.setFillStyle("#FFFFFF");
+        vesselCtx.fill();
+        vesselCtx.restore();
+    }
+
     /*draw pour*/
     var shouldRedrawPour = false;
     function redrawPour() {
-        if (shouldRedrawPour == false) {
-            shouldRedrawPour = true;
-
-            setTimeout(function () {
-                for (var i = 0; i < pours.length; i++) {
-                    drawPour(pours[i].top, pours[i].bottom, pours[i].color, pours[i].position);
-                }
-                pourCtx.draw();
-                shouldRedrawPour = false;
-            }, 10)
+        for (var i = 0; i < pours.length; i++) {
+            drawPour(pours[i].top, pours[i].bottom, pours[i].color, pours[i].position);
         }
+        pourCtx.draw();
     }
 
     function drawPour(top, bottom, color, position) {
@@ -144,23 +159,14 @@ function Vessel(profile) {
     /*draw liquid*/
     var shouldRedrawLiquid = false;
     function redrawLiquid() {
-        if (shouldRedrawLiquid == false) {
-            shouldRedrawLiquid = true;
-            redrawPour();
-            setTimeout(function () {
-                if (that.colorMix) {
-                    drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
-                } else {
-                    for (var i = liquids.length - 1; i >= 0; i--) {
-                        drawLiquid(liquids[i].color, topHeightForLiquid(i), liquids[i].height);
-                    }
-                }
-                // clipLiquid();
-                coverLiquid();
-                liquidCtx.draw();
-                shouldRedrawLiquid = false;
-            }, 9);
+        if (that.colorMix) {
+            drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
+        } else {
+            for (var i = liquids.length - 1; i >= 0; i--) {
+                drawLiquid(liquids[i].color, topHeightForLiquid(i), liquids[i].height);
+            }
         }
+        liquidCtx.draw();
     }
 
     function drawLiquid(color, topHeight, height) {
@@ -168,15 +174,7 @@ function Vessel(profile) {
         liquidCtx.translate(ctxPadding, ctxPadding);
         liquidCtx.setFillStyle(color);
         liquidCtx.fillRect(0, profile.ctxHeight - topHeight, profile.ctxWidth, height);
-        liquidCtx.restore();
-    }
-
-    function coverLiquid() {
-        liquidCtx.save();
-        liquidCtx.translate(ctxPadding, ctxPadding);
-        profile.coverLiquidPath(liquidCtx);
-        liquidCtx.setFillStyle("#FFFFFF");
-        liquidCtx.fill();
+        // liquidCtx.fillRect(0, profile.ctxHeight - topHeight, profile.ctxWidth, height);
         liquidCtx.restore();
     }
 

@@ -23,10 +23,7 @@ Page({
   },
   onReady: function () {
     // 页面渲染完成
-  },
-  onShow: function () {
-    // 页面显示
-    vessel.reset();
+    vessel.start();
     setTimeout(function () {
       vessel.addLiquid({
         color: 'rgba(255,0,255,0.2)',
@@ -36,6 +33,8 @@ Page({
           color: '#999999',
           height: 75,
           position: -40
+        }, function () {
+          vessel.stop();
         }).addLiquid({
           color: '#00FF00',
           height: 60,
@@ -43,7 +42,9 @@ Page({
         });
       });
     }, 500);
-
+  },
+  onShow: function () {
+    // 页面显示
   },
   onHide: function () {
     // 页面隐藏
