@@ -28,6 +28,7 @@ function Vessel(profile) {
     this.fillSpeed = 50;    // 液面上升速度(每秒)
     this.pourSpeed = 300;   // 液体加入速度(每秒)
     this.pourWidth = 30;    // 加入液柱宽度
+    this.pourCircleHeight = 20;
     this.FPS = 60;          // 刷新帧率
     this.enableWaves = true; // 是否启用液面波动
 
@@ -70,12 +71,15 @@ function Vessel(profile) {
         const delayTime = (profile.ctxHeight - topHeightForLiquid(liquids.length - 1)) / that.pourSpeed;
 
         function pourLiquid() {
+            var end = false;
             function pourTop() {
-                if (pour.top <= + pour.bottom) {
+                if (pour.top <= pour.bottom + that.pourCircleHeight * 2) {
                     pour.top += that.pourSpeed / that.FPS;
                     setTimeout(function () {
                         pourTop();
                     }, 1000 / that.FPS);
+                } else {
+                    end = true;
                 }
             }
             function pourBottom() {
@@ -85,10 +89,16 @@ function Vessel(profile) {
                         pourBottom();
                     }, 1000 / that.FPS);
                 } else if (liquids.length > 1) {
-                    autoDiff = 1000;
                     xx = Math.floor((waveNum - 2) * (0.5 + (pour.position ? pour.position : 0) / profile.ctxWidth)) + 1;
-                    diffPt[xx] = autoDiff;
-                    console.log(xx);
+                    diffPt[xx] = 1000;
+
+                    function ccc() {
+                        if (end) return;
+                        diffPt[xx] = 1000;
+                        setTimeout(function () {
+                            ccc();
+                        }, 1000 / that.FPS);
+                    }
                 }
             }
             pourBottom();
@@ -152,14 +162,32 @@ function Vessel(profile) {
     }
 
     function drawPour(top, bottom, color, position) {
+        top -= that.pourCircleHeight;
+        bottom += that.pourCircleHeight;
         if (top > bottom) return;
-        bottom = Math.min(bottom, profile.ctxHeight - topHeightForLiquid(liquids.length - 1));
+        bottom = Math.min(bottom, profile.ctxHeight - topHeightForLiquid(liquids.length - 1) + that.pourCircleHeight);
         if (top > bottom) return;
         if (!position) position = 0;
+
+        var topCircleRoot = top + that.pourCircleHeight;
+        var bottomCircleRoot = bottom - that.pourCircleHeight;
+
+        if (topCircleRoot > bottomCircleRoot) {
+            topCircleRoot = (topCircleRoot + bottomCircleRoot) / 2.0;
+            bottomCircleRoot = topCircleRoot;
+        }
+        
         pourCtx.save();
         pourCtx.translate(ctxPadding, ctxPadding);
         pourCtx.setFillStyle(color);
-        pourCtx.fillRect((that.ctxWidth - that.pourWidth) / 2.0 + position, top, that.pourWidth, bottom - top);
+        pourCtx.beginPath();
+        pourCtx.moveTo((that.ctxWidth - that.pourWidth) / 2.0 + position, topCircleRoot);
+        pourCtx.lineTo((that.ctxWidth - that.pourWidth) / 2.0 + position, bottomCircleRoot);
+        pourCtx.bezierCurveTo((that.ctxWidth - that.pourWidth) / 2.0 + position, bottom, (that.ctxWidth + that.pourWidth) / 2.0 + position, bottom, (that.ctxWidth + that.pourWidth) / 2.0 + position, bottomCircleRoot);
+        pourCtx.lineTo((that.ctxWidth + that.pourWidth) / 2.0 + position, topCircleRoot);
+        pourCtx.bezierCurveTo((that.ctxWidth + that.pourWidth) / 2.0 + position, top, (that.ctxWidth - that.pourWidth) / 2.0 + position, top, (that.ctxWidth - that.pourWidth) / 2.0 + position, topCircleRoot);
+        pourCtx.closePath();
+        pourCtx.fill();
         pourCtx.restore();
     }
 
@@ -258,10 +286,8 @@ function Vessel(profile) {
         diffPt[i] = 0;
     }
 
-    var autoDiff = 0;
     var xx = 0;
     var dd = 5;
-    diffPt[xx] = autoDiff;
 
     function wave(x) {
         var friction = 0.05;
@@ -278,9 +304,9 @@ function Vessel(profile) {
     }
 
     function updateWaves() {
-        autoDiff *= 0.05;
-        if (Math.abs(autoDiff) < 0.001) autoDiff = 0;
-        diffPt[xx] = autoDiff;
+        var diff = diffPt[xx] * 0.05;
+        if (Math.abs(diff) < 0.001) diff = 0;
+        diffPt[xx] = diff;
         //左侧
         //差分，使得每个点都是上一个点的下一次的解，由于差分函数出来的解是一个曲线，且每次迭代后，曲线相加的结果形成了不断地波浪
         for (var i = xx - 1; i > 0; i--) {
