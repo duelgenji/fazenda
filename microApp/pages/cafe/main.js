@@ -14,7 +14,6 @@ Page({
     var profile = 'cup';
 
     vessel = require('vessel.js')(profile);
-    // vessel.fillSpeed = 0.5;
     vessel.colorMix = true;
     this.setData({
       canvasWidth: vessel.ctxWidth + "px",
@@ -26,19 +25,25 @@ Page({
     vessel.start();
     setTimeout(function () {
       vessel.addLiquid({
-        color: 'rgba(255,0,255,0.2)',
-        height: 80
+        color: 'rgba(255,0,0,0.2)',
+        height: 30
       }, function () {
         vessel.addLiquid({
-          color: '#999999',
-          height: 75,
-          position: -40
+          color: 'rgba(255,0,255,0.2)',
+          height: 60
         }, function () {
-          vessel.stop();
-        }).addLiquid({
-          color: '#00FF00',
-          height: 60,
-          position: 30
+          vessel.addLiquid({
+            color: '#999999',
+            height: 75,
+            position: -40
+          });
+          setTimeout(function () {
+            vessel.addLiquid({
+              color: '#00FF00',
+              height: 60,
+              position: 30
+            });
+          }, 200);
         });
       });
     }, 500);

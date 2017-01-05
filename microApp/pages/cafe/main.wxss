@@ -5,10 +5,10 @@ canvas {
     top: 0;
 }
 
-#liquid {
+#pour {
     margin-top: 10px;
 }
 
-#liquid canvas {
+canvas canvas {
     position: absolute;
 }

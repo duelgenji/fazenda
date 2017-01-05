@@ -25,15 +25,17 @@ function Vessel(profile) {
     this.strokeWidth = 5;   // 器皿壁厚
     this.strokeColor = '#000000'; // 器皿边框颜色
     this.colorMix = false;  // 是否混合颜色，false为分层
-    this.fillSpeed = 50;   // 液面上升速度(每秒)
+    this.fillSpeed = 50;    // 液面上升速度(每秒)
     this.pourSpeed = 300;   // 液体加入速度(每秒)
     this.pourWidth = 30;    // 加入液柱宽度
     this.FPS = 60;          // 刷新帧率
+    this.enableWaves = true; // 是否启用液面波动
 
     var timer = null;
     this.start = function () {
         redrawVessel();
         timer = setTimeout(function () {
+            updateWaves();
             redrawPour();
             redrawLiquid();
             that.start();
@@ -66,6 +68,7 @@ function Vessel(profile) {
         const duration = height / that.fillSpeed;
         const deltaTime = height / that.pourSpeed;
         const delayTime = (profile.ctxHeight - topHeightForLiquid(liquids.length - 1)) / that.pourSpeed;
+
         function pourLiquid() {
             function pourTop() {
                 if (pour.top <= + pour.bottom) {
@@ -81,6 +84,11 @@ function Vessel(profile) {
                     setTimeout(function () {
                         pourBottom();
                     }, 1000 / that.FPS);
+                } else if (liquids.length > 1) {
+                    autoDiff = 1000;
+                    xx = Math.floor((waveNum - 2) * (0.5 + (pour.position ? pour.position : 0) / profile.ctxWidth)) + 1;
+                    diffPt[xx] = autoDiff;
+                    console.log(xx);
                 }
             }
             pourBottom();
@@ -102,7 +110,6 @@ function Vessel(profile) {
         setTimeout(fillLiquid, delayTime * 1000);
         return this;
     };
-
 
     /*初始化*/
     setTimeout(init, 0);
@@ -171,10 +178,20 @@ function Vessel(profile) {
 
     function drawLiquid(color, topHeight, height) {
         liquidCtx.save();
-        liquidCtx.translate(ctxPadding, ctxPadding);
+        liquidCtx.translate(ctxPadding, ctxPadding + profile.ctxHeight - topHeight);
         liquidCtx.setFillStyle(color);
-        liquidCtx.fillRect(0, profile.ctxHeight - topHeight, profile.ctxWidth, height);
-        // liquidCtx.fillRect(0, profile.ctxHeight - topHeight, profile.ctxWidth, height);
+        liquidCtx.beginPath();
+        liquidCtx.moveTo(0, 0);
+        if (that.enableWaves) {
+            for (var i = 1; i < waves.length; i++)
+                liquidCtx.lineTo(waves[i].x, waves[i].y);
+        } else {
+            liquidCtx.lineTo(profile.ctxWidth, 0);
+        }
+        liquidCtx.lineTo(profile.ctxWidth, height);
+        liquidCtx.lineTo(0, height);
+        liquidCtx.closePath();
+        liquidCtx.fill();
         liquidCtx.restore();
     }
 
@@ -230,5 +247,57 @@ function Vessel(profile) {
         b = parseInt(b / height);
         a = parseFloat(a / height).toFixed(3);
         return "rgba(" + r + "," + g + "," + b + "," + a + ")";
+    }
+
+    /*waves*/
+    var waves = [];
+    var diffPt = [];
+    const waveNum = 250;
+    for (var i = 0; i < waveNum; i++) {
+        waves[i] = new wave(profile.ctxWidth * i / (waveNum - 1));
+        diffPt[i] = 0;
+    }
+
+    var autoDiff = 0;
+    var xx = 0;
+    var dd = 5;
+    diffPt[xx] = autoDiff;
+
+    function wave(x) {
+        var friction = 0.05;
+        var deceleration = 0.9;
+
+        this.vy = 0;
+        this.x = x;
+        this.y = 0;
+        this.update = function (target) {
+            this.vy += target - this.y
+            this.y += this.vy * friction;
+            this.vy *= deceleration;
+        }
+    }
+
+    function updateWaves() {
+        autoDiff *= 0.05;
+        if (Math.abs(autoDiff) < 0.001) autoDiff = 0;
+        diffPt[xx] = autoDiff;
+        //左侧
+        //差分，使得每个点都是上一个点的下一次的解，由于差分函数出来的解是一个曲线，且每次迭代后，曲线相加的结果形成了不断地波浪
+        for (var i = xx - 1; i > 0; i--) {
+            var d = xx - i;
+            if (d > dd) d = dd;
+            diffPt[i] -= (diffPt[i] - diffPt[i + 1]) * (1 - 0.01 * d);
+        }
+        //右侧
+        for (var i = xx + 1; i < waveNum; i++) {
+            var d = i - xx;
+            if (d > dd) d = dd;
+            diffPt[i] -= (diffPt[i] - diffPt[i - 1]) * (1 - 0.01 * d);
+        }
+
+        //更新点Y坐标
+        for (var i = 0; i < waveNum; i++) {
+            waves[i].update(diffPt[i]);
+        }
     }
 }
