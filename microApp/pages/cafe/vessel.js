@@ -159,6 +159,7 @@ function Vessel(profile) {
         bottom += that.pourCircleHeight;
         if (top > bottom) return;
         bottom = Math.min(bottom, profile.ctxHeight - topHeightForLiquid(liquids.length - 1) + that.pourCircleHeight);
+        bottom = Math.min(bottom, profile.ctxHeight);
         if (top > bottom) return;
         if (!position) position = 0;
 
@@ -187,7 +188,6 @@ function Vessel(profile) {
     /*draw liquid*/
     var shouldRedrawLiquid = false;
     function redrawLiquid() {
-
         if (that.colorMix) {
             drawLiquid(mixedColor(), topHeightForLiquid(liquids.length - 1), topHeightForLiquid(liquids.length - 1));
         } else {
@@ -277,7 +277,7 @@ function Vessel(profile) {
     /*waves*/
     var waves = [];
     var diffPt = [];
-    const waveNum = 250;
+    const waveNum = 100;
     for (var i = 0; i < waveNum; i++) {
         waves[i] = new wave(profile.ctxWidth * i / (waveNum - 1));
         diffPt[i] = 0;
